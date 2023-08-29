@@ -1,6 +1,4 @@
 
-
-
 #1 INSTALAÇÃO DE PACOTES                                                        ----
 #install.packages(c("shiny","shinydashboard"))
 
@@ -344,11 +342,10 @@ Fiscalização em nível Estadual."
 
 #3.0 INTERFACE DO SERVIDOR                                                      ----
 server <- function(input, output, session) {
-  #3.1.1 Diagrama p/ Fontes                                                     ----
-  output$fonte1 <- renderDiagrammeR({
-    mermaid(
-      "
-graph TB
+  
+#3.1.1 Diagrama p/ Fontes                                                     ----
+output$fonte1 <- renderDiagrammeR({
+  mermaid("graph TB
 A[PAREAMENTO]-->B{FONTES}
 B-->C[Policia Civil]
 B-->D[PRE]
@@ -367,35 +364,33 @@ G-->L[ANUÁRIO WEB]
 H-->L[ANUÁRIO WEB]
 I-->L[ANUÁRIO WEB]
 J-->L{ANUÁRIO WEB}
-K-->L(ANUÁRIO WEB)
-",
-      width = 700
-    )
+K-->L(ANUÁRIO WEB)",
+          width=700
+          )
   })
   
   
-  #3.1 Base de Dados                                                              ----
-  output$tabela1 <- renderDataTable({
-    setwd("C:/Users/detra/Documents/SEMEST_UFPA_2023/SEMEST_UFPA_2023")
-    Pareamento_Limpo <- read_excel("Pareamento_Limpo.xls")
-    datatable(
-      Pareamento_Limpo,
-      plugins = 'natural',
-      extensions = 'Buttons',
-      options = list(
-        dom = 'Blfrtip',
-        buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
-        engthMenu = list(c(5, 50, 100, 250, -1)),
-        c(5, 50, 100, 250, "All"),
-        pageLength = 5,
-        autoWidth = TRUE,
-        scrollX = TRUE
-      ),
-      rownames = FALSE,
-      class = 'cell-border compact stripe hover row-border order-column dt-body-right',
-      style = 'bootstrap',
-      editable = 'cell',
-      colnames = c(
+#3.1 Base de Dados                                                              ----
+
+output$tabela1 <- renderDataTable({
+  setwd("C:/Users/detra/Documents/SEMEST_UFPA_2023/SEMEST_UFPA_2023")
+  Pareamento_Limpo <- read_excel("Pareamento_Limpo.xls")
+  datatable(Pareamento_Limpo,
+            plugins='natural',
+            extensions='Buttons',
+            options=list(dom='Blfrtip',
+                         buttons=c('copy','csv','excel','pdf','print'),
+                         engthMenu=list(c(5, 50, 100, 250, -1)),
+        c(5,50,100,250,"All"),
+        pageLength=7,
+        autoWidth=TRUE,
+        scrollX=TRUE
+        ),
+      rownames=FALSE,
+      class='cell-border compact stripe hover row-border order-column dt-body-right',
+      style='bootstrap',
+      editable='cell',
+      colnames=c(
         'Ano',
         'Gênero',
         'Idade',
@@ -417,7 +412,7 @@ K-->L(ANUÁRIO WEB)
         'Municipios',
         'Fatal'
       ),
-      caption = 'Base de Dados sobre Vitimas Fatais por Acidentes de Trânsito-2020.'
+    caption='Base de Dados sobre Vitimas Fatais por Acidentes de Trânsito-2020.'
     )
   })
   
